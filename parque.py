@@ -13,7 +13,11 @@ df = pd.DataFrame(resp)
 print(df)
 
 #consulta 2
-
+cur.execute(''' select * from boleto
+''')
+resp = cur.fetchall()
+df2 = pd.DataFrame(resp)
+print(df2)
 
 #consulta 3
 
