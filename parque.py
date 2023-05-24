@@ -15,6 +15,13 @@ resp = cur.fetchall()
 df1 = pd.DataFrame(resp,columns = ['nombre'])
 print(df1)
 
+nuevo = pd.read_sql_query(''' select distinct v.nombre
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+order by v.nombre
+''',conn)
+print('Nueva \n',nuevo)
+
 #consulta 2
 cur.execute(''' 
 select IdBoleto
