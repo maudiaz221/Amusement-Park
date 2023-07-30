@@ -1,0 +1,281 @@
+--a) Una que involucre varias tablas y order by.
+--Lista a los visitantes y ordénalos por alfabéticamente
+select distinct v.nombre
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+order by v.nombre
+
+
+--b) Una con manejo de fechas.
+--ID de boletos con fechaDeCompra de este año
+select IdBoleto
+from Boleto
+where FechaDeC >= '2023-01-01'
+
+--c) Una con not in y subconsulta.
+--Visitantes que no hayan ido a la atracción "Velocity"
+select distinct nombre, boleto.idboleto
+from visitante,visita,boleto
+where visitante.IdVisit=boleto.IdVisit and visita.IdBoleto = boleto.IdBoleto and nombre not in
+(select v.nombre
+from boleto b, visita, Área a,visitante v
+where b.idVisit = v.idVisit and b.IdBoleto = visita.IdBoleto 
+ and visita.IdArea = a.IdArea and a.nombre='Velocity')
+
+
+--d)Una con intersección.
+--Empleados que trabajan en una atracción y restaurante
+select e.nombre
+from empleado e, trabajaen t, restaurante r
+where e.IdEmpleado=t.IdEmpleado and t.IdArea=r.IdArea
+intersect
+select e.nombre
+from empleado e, trabajaen t, atracción at
+where e.IdEmpleado=t.IdEmpleado and t.IdArea=at.IdArea
+
+
+--e) Una con unión.
+--Empleados que trabajan en una tienda o restaurante
+select e.nombre
+from empleado e, trabajaen t, restaurante r
+where e.IdEmpleado=t.IdEmpleado and t.IdArea=r.IdArea
+union
+select e.nombre
+from empleado e, trabajaen t, tienda ti
+where e.IdEmpleado=t.IdEmpleado and t.IdArea=ti.IdArea
+
+--f)Una con agrupamiento.
+-- Cuenta a cuántas atracciones se ha subido cada visitante
+select v.nombre, count(*) "Número de atracciones"
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+group by v.nombre
+
+--g) Una con agrupamiento y having. 
+--Visitantes que han subido a al menos 2 atracciones
+select nombre, count(*) "Numero de atracciones"
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+group by visitante
+having count(*) >= 2
+
+
+--h)Una que contenga where (con al menos una condición que no sea sólo equijunta), group by y having.
+--Empleados en más de un área y que tengan ganen más de 3000 pesos al mes
+select e.nombre
+from Área a, empleado e, trabajaen
+where e.idempleado = trabajaen.idempleado and trabajaen.idarea = a.idarea and salario>2500
+group by e.nombre
+having count(*)>=2
+
+--i)Una que contenga el máximo, o mínimo, de un conjunto de grupos
+--Estatura mínima para subir a al menos una atracción
+select min(estaturamin)
+from atracción
+
+---
+import psycopg2 as obg
+import pandas as pd
+import matplotlib.pyplot as plt
+
+conn = obg.connect(host="localhost",dbname="Parque",user="postgres",
+                   password="basesdatos_cd",port=5432)
+
+cur = conn.cursor()
+
+#consulta 1
+cur.execute(''' select distinct v.nombre
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+order by v.nombre
+''')
+resp = cur.fetchall()
+df1 = pd.DataFrame(resp,columns = ['nombre'])
+print(df1)
+
+#consulta 2
+cur.execute(''' 
+select IdBoleto
+from Boleto
+''')
+resp = cur.fetchall()
+df2 = pd.DataFrame(resp)
+print(df2)
+
+
+#consulta 3
+
+cur.execute(''' 
+select v.nombre, count(*) "Número de atracciones"
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+group by v.nombre
+order by v.nombre
+''')
+resp = cur.fetchall()
+df3 = pd.DataFrame(resp,columns = ['nombre','atracciones'])
+print(df3)
+
+
+#consulta 4
+
+cur.execute(''' 
+select v.idvisit, v.nombre, sum(monto)
+from visitante v, boleto b, tienda t, visita vi,venta ve
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=t.IdArea 
+	and t.IdArea=ve.IdArea
+group by v.idvisit
+''')
+resp = cur.fetchall()
+df4 = pd.DataFrame(resp)
+print(df4)
+
+
+#Hacemos un data frame en base a las consultas,
+df1['idBoleto'] = df2
+df1['num de atracciones'] = df3['atracciones']
+df1['monto'] =[None,None,None,None,None,None]
+
+print('dataFrame final\n', df1)
+
+
+
+'''
+Consultas
+select distinct v.nombre
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+order by v.nombre
+select IdBoleto
+from Boleto
+select v.nombre, count(*) "Número de atracciones"
+from visitante v, boleto b, atracción a, visita vi
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=a.IdArea
+group by v.nombre
+select v.idvisit, v.nombre, sum(monto)
+from visitante v, boleto b, tienda t, visita vi,venta ve
+where v.IdVisit=b.IdVisit and b.IdBoleto=vi.IdBoleto and vi.IdArea=t.IdArea 
+	and t.IdArea=ve.IdArea
+group by v.idvisit
+'''
+#+++++++++++++++++++++++++++++
+#vISITAS ANUALES
+#+++++++++++++++++++++++++++++
+names=[2020, 2021, 2022]
+values=[]
+
+cur.execute("select count(*) from Visita v where v.FechaDeIngreso between '2020-01-01' and '2021-01-01'")
+aux=cur.fetchall()
+r20=aux[0]
+values.append(r20[0])
+
+cur.execute("select count(*) from Visita v where v.FechaDeIngreso between '2021-01-01' and '2022-01-01'")
+aux=cur.fetchall()
+r21=aux[0]
+values.append(r21[0])
+
+cur.execute("select count(*) from Visita v where v.FechaDeIngreso between '2022-01-01' and '2023-01-01'")
+aux=cur.fetchall()
+r22=aux[0]
+values.append(r22[0])
+
+
+plt.figure(figsize=(9, 3))
+
+plt.subplot(131)
+plt.bar(names, values)
+plt.subplot(132)
+plt.plot(names, values)
+plt.suptitle('Visitas a atracciones por año')
+plt.show()
+
+#+++++++++++++++++++++++++++++++++++++++++
+#VISITAS HISTÓRICAS POR ATRACCÓN 
+#+++++++++++++++++++++++++++++++++++++++++
+cur.execute("select a.Nombre, count(*) from Área a, Atracción at, Visita v where a.idArea=at.idArea and a.idArea=v.idArea group by a.Nombre")
+res=cur.fetchall()
+df5=pd.DataFrame(res)
+datosx=[]
+    
+plt.bar(df5[0], df5[1])
+plt.title('Visitas históricas por atracción')
+plt.show()
+
+#+++++++++++++++++++++++++++++++++++++++++
+#Promedio del monto de ventas por año
+#+++++++++++++++++++++++++++++++++++++++++
+cur.execute("select EXTRACT(YEAR from v.Fecha), sum(v.monto) from Venta v where EXTRACT(YEAR from v.Fecha)='2020' or EXTRACT(YEAR from v.Fecha)='2021' or EXTRACT(YEAR from v.Fecha)='2022' group by EXTRACT(YEAR from v.Fecha) order by EXTRACT(YEAR from v.Fecha) asc")
+res=cur.fetchall()
+df6=pd.DataFrame(res)
+
+datosx=[]
+
+for i in df6[0]:
+    datosx.append(str(i))
+   
+plt.plot(datosx, df6[1])
+plt.title('Suma de ventas por año')
+plt.show()    
+
+#+++++++++++++++++++++++++++++++++++++++++
+#Comparación a lo largo de los años de 
+#los boletos vendidos
+#Permium vs los Básicos
+#+++++++++++++++++++++++++++++++++++++++++
+cur.execute("select EXTRACT(YEAR from b.FechaDeC), count(*) from Boleto b where (EXTRACT(YEAR from b.FechaDeC)='2020' or EXTRACT(YEAR from b.FechaDeC)='2021' or EXTRACT(YEAR from b.FechaDeC)='2022' or EXTRACT(YEAR from b.FechaDeC)='2023') and b.Tipo='Básico' group by EXTRACT(YEAR from b.FechaDeC) order by EXTRACT(YEAR from b.FechaDeC) asc")
+res=cur.fetchall()
+df7=pd.DataFrame(res)
+cur.execute("select EXTRACT(YEAR from b.FechaDeC), count(*) from Boleto b where (EXTRACT(YEAR from b.FechaDeC)='2020' or EXTRACT(YEAR from b.FechaDeC)='2021' or EXTRACT(YEAR from b.FechaDeC)='2022' or EXTRACT(YEAR from b.FechaDeC)='2023') and b.Tipo='Premium' group by EXTRACT(YEAR from b.FechaDeC) order by EXTRACT(YEAR from b.FechaDeC) asc")
+df8=pd.DataFrame(cur.fetchall())
+datosx=[]
+datosxi=[]
+
+'''
+Aquí se pasan los años a String 
+'''
+for i in df7[0]:
+    datosx.append(str(i))
+    datosxi.append(i)
+for i in df8[0]:
+    if i not in datosx:
+        datosx.append(str(i))
+        datosxi.append(i)
+
+datosx.sort()
+datosxi.sort()
+datosy1=[]
+datosy2=[]
+j=0
+'''
+Aquíe se está obteniendo los arreglos del tamaño adecuado para las gráficas
+'''
+for i in datosxi:
+   if df8[0].size>j and i==df7[0].iloc[j]:
+       datosy1.append(df7[1].iloc[j])
+       j+=1
+   else:
+       datosy1.append(0)
+j=0
+for i in datosxi:
+   if df8[0].size>j and i==df8[0].iloc[j]:
+       datosy2.append(df8[1].iloc[j])
+       j+=1
+   else:
+       datosy2.append(0)   
+       
+plt.plot(datosx,datosy1, label ='Básico')
+plt.plot(datosx, datosy2,label = 'Premium')
+plt.title('Boletos Básicos vs Premium')
+plt.legend()
+plt.show()
+
+res=pd.DataFrame(cur.execute("select * from Visitante"))
+print(res)
+
+#cierra la base de datos
+conn.commit()
+cur.close()
+conn.close()
+
+
+

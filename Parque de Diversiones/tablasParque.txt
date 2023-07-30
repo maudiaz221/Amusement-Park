@@ -1,0 +1,88 @@
+--visitante
+
+create table Visitante
+(	IdVisit int primary key,
+	Nombre varchar(30),
+	Género varchar(4) check(Género in ('hom', 'muj', 'otro')),
+	FechaNac date
+
+);
+
+--boleto
+
+create table Boleto
+(	IdBoleto int primary key,
+	Tipo varchar(30) check(Tipo in ('Básico', 'Premium')),
+	FechaDeC date,
+	IdVisit int references Visitante unique
+);
+
+
+--área
+
+create table Área
+(	IdArea smallint primary key,
+	Nombre varchar(30)	
+);
+
+--atracción 
+
+create table Atracción
+(	IdArea smallint references Área primary key,
+	Duración int,
+	EstaturaMin real
+);
+
+--visita
+
+create table Visita
+(	IdBoleto int references Boleto,
+	IdArea smallint references Área,
+				primary key(IdBoleto, IdArea),
+	FechaDeIngreso date 
+
+);
+
+
+--empleado
+
+create table Empleado
+(	IdEmpleado smallint primary key,
+	Nombre varchar(30),
+	Salario money,
+	FechaInicio date
+);
+
+
+--trabajaEn
+
+create table TrabajaEn
+(	IdEmpleado smallint references Empleado,
+	IdArea smallint references Área,
+				primary key(IdEmpleado, IdArea)
+);
+
+--tienda
+create table Tienda
+(	IdArea smallint references Área primary key,
+	Temática varchar(30),
+	Dulces boolean
+);
+
+--restaurante
+create table Restaurante
+(	IdArea smallint references Área primary key,
+	Tipo varchar(30) check(Tipo in ('USA', 'MEX', 'JAP')),
+	Capacidad smallint
+);
+
+--ventas
+create table Venta
+(	IdVenta int primary key,
+	Fecha date,
+	Hora time,
+	Monto real,
+	IdArea smallint references Área
+)
+
+

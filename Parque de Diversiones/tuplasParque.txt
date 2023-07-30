@@ -1,0 +1,200 @@
+
+--tuplas del visitante
+
+insert into Visitante values (10100,'Juan','hom','2000-12-10');
+insert into Visitante values (10101,'Isabel','muj','1990-01-20');
+insert into Visitante values (10102,'Mauricio','otro','1940-07-14');
+insert into Visitante values (10103,'Debbie','muj','1997-06-21');
+insert into Visitante values (10104,'Jason','hom','2004-06-27');
+insert into Visitante values (10105,'Santiago','hom','2002-05-09');
+
+–NUEVAS:
+insert into Visitante values (10106, 'María', 'muj', '1995-09-18');
+insert into Visitante values (10107, 'Carlos', 'hom', '1988-03-12');
+insert into Visitante values (10108, Gerardo, 'hom', '2000-05-04');
+insert into Visitante values (10109, 'Pedro', 'hom', '1979-07-05');
+insert into Visitante values (10110, 'Laura', 'muj', '1985-02-09');
+
+
+
+--tuplas de boletos
+
+insert into Boleto values (30310, 'Básico', '2022-02-25', 10100);
+insert into Boleto values (40121, 'Premium', '2021-03-19', 10101);
+insert into Boleto values (25312, 'Premium', '2020-03-16', 10102);
+insert into Boleto values (31313, 'Básico', '2022-11-29', 10103);
+insert into Boleto values (45214, 'Básico', '2023-03-12', 10104);
+insert into Boleto values (11215, 'Básico', '2022-12-28', 10105);
+
+insert into Boleto values (45215, 'Básico', '2022-08-02', 10100);
+insert into Boleto values (30312, 'Básico', '2023-05-30', 10102);
+insert into Boleto values (40123, 'Básico', '2022-10-18', 10103);
+insert into Boleto values (25314, 'Premium', '2023-03-08', 10104);
+insert into Boleto values (58234, 'Premium','2023-08-15',10104)
+insert into Boleto values (43285, 'Premium','2023-02-14',10105)
+insert into Boleto values (31315, 'Básico', '2022-07-22', 10105)
+insert into Boleto values (29746, 'Básico','2022-08-15',10106)
+insert into Boleto values (69696, 'Premium','2023-02-14',10106)
+insert into Boleto values (40122, 'Básico', '2022-09-15', 10107)
+insert into Boleto values (11216, 'Premium', '2023-02-14', 10107)
+insert into Boleto values (25313, 'Premium', '2023-04-20', 10108)
+insert into Boleto values (29746, 'Básico','2023-08-15',10108)
+insert into Boleto values (31314, 'Básico', '2023-06-10', 10109)
+
+
+
+
+--tuplas para área
+
+insert into Área values (097, 'SuperSonic');
+insert into Área values (072, 'Montaña del terror');
+insert into Área values (018, 'Velocity');
+insert into Área values (130, 'Rudy s');
+insert into Área values (154, 'Sushi Inn');
+insert into Área values (187, 'Tacos de Toño');
+insert into Área values (243, 'Regalos Zeus');
+
+insert into Área values (013,  'El demonizador');
+insert into Área values (287,  'Mundo de peluche ');
+
+
+--tuplas de Atracción
+
+insert into Atracción values (097, 60, 1.20);
+insert into Atracción values (072, 80, 1.60);
+insert into Atracción values (018, 100, 1.60);
+
+insert into Atracción values (013,112,1.65)
+
+
+--tuplas para visitas
+
+insert into Visita values (30310,097, '2021-01-24');
+insert into Visita values (30310,072, '2021-01-24');
+insert into Visita values (40121,018, '2022-11-04');
+insert into Visita values (25312,072, '2020-07-27');
+insert into Visita values (31313,097, '2021-05-09');
+insert into Visita values (40121,072, '2022-11-04');
+insert into Visita values (11215,018, '2022-11-12');
+insert into Visita values (45214,097, '2021-08-25');
+
+
+–Estas son visitas a atracciones
+insert into Visita values (45215, 072, '2022-08-02');
+insert into Visita values (30312, 013, '2023-05-30');
+insert into Visita values (40123, 072, '2022-10-18');
+insert into Visita values (25314, 097, '2023-03-08');
+insert into Visita values (58234, 018, '2023-08-15');
+insert into Visita values (43285, 072, '2023-02-14');
+insert into Visita values (31315, 013, '2022-07-22');
+insert into Visita values (29746, 072, '2022-08-15');
+insert into Visita values (69696, 097, '2023-02-14');
+insert into Visita values (40122, 018, '2022-09-15');
+insert into Visita values (11216, 097, '2023-02-14');
+insert into Visita values (25313, 018, '2023-04-20');
+insert into Visita values (29746, 013, '2023-08-15');
+insert into Visita values (31314, 072, '2023-06-10');
+
+
+–Estas son tuplas de visitas a restaurantes
+insert into Visita values (30310, 154, '2021-01-24');
+insert into Visita values (30310, 187, '2021-01-24');
+insert into Visita values (40121, 243, '2022-11-04');
+insert into Visita values (25312, 187, '2020-07-27');
+insert into Visita values (31313, 154, '2021-05-09');
+insert into Visita values (40121, 187, '2022-11-04');
+insert into Visita values (11215, 243, '2022-11-12');
+insert into Visita values (45214, 154, '2021-08-25');
+
+insert into Visita values (45215, 187, '2022-08-02');
+insert into Visita values (30312, 243, '2023-05-30');
+insert into Visita values (40123, 187, '2022-10-18');
+insert into Visita values (25314, 154, '2023-03-08');
+insert into Visita values (58234, 243, '2023-08-15');
+insert into Visita values (43285, 187, '2023-02-14');
+insert into Visita values (31315, 243, '2022-07-22');
+insert into Visita values (29746, 187, '2022-08-15');
+insert into Visita values (69696, 154, '2023-02-14');
+insert into Visita values (40122, 243, '2022-09-15');
+insert into Visita values (11216, 154, '2023-02-14');
+insert into Visita values (25313, 243, '2023-04-20');
+insert into Visita values (29746, 154, '2023-08-15');
+insert into Visita values (31314, 187, '2023-06-10');
+
+
+
+
+--tuplas para empleado
+
+insert into Empleado values (1234, 'Constanza', 3000, '2019-01-05');
+insert into Empleado values (1986, 'Diego', 21100, '2020-03-03');
+insert into Empleado values (0988, 'Lucia', 6000, '2019-02-11');
+insert into Empleado values (0876, 'Monica', 30000, '2018-05-22');
+insert into Empleado values (1544, 'Elmer', 5000, '2022-08-30');
+insert into Empleado values (0923, 'Luisa', 25000, '2019-11-14');
+insert into Empleado values (2010, 'Sergio', 8000, '2021-03-10');
+insert into Empleado values (3365, 'Ana', 45000, '2017-09-02');
+
+
+
+
+
+--tuplas para trabajaEn
+insert into TrabajaEn values (1234, 097);
+insert into TrabajaEn values (1986, 018);
+insert into TrabajaEn values (0988, 130);
+insert into TrabajaEn values (0876, 243);
+insert into TrabajaEn values (1234, 187);
+insert into TrabajaEn values (1544, 187);
+
+insert into TrabajaEn values (1986, 072);
+insert into TrabajaEn values (0988, 018);
+insert into TrabajaEn values (0876, 130);
+insert into TrabajaEn values (1544, 154);
+insert into TrabajaEn values (0923, 187);
+insert into TrabajaEn values (2010, 243);
+insert into TrabajaEn values (3365, 013);
+
+--tuplas para tienda
+
+insert into tienda values (243, 'Dioses Griegos', false);
+
+insert into tienda values (287, 'Muñecos de peluche', true)
+
+--tuplas para restaurante
+
+insert into Restaurante values (130, 'USA', 70);
+insert into Restaurante values (154, 'JAP', 60);
+insert into Restaurante values (187, 'MEX', 100);
+
+--tuplas para ventas
+
+insert into Venta values (20499, '2021-01-13', '18:00', 100, 243);
+insert into Venta values (22692, '2020-12-09', '12:00', 250, 243);
+insert into Venta values (11264, '2021-10-19', '13:00', 123, 243);
+insert into Venta values (31586, '2022-01-17', '14:00', 54, 243);
+insert into Venta values (13256, '2020-09-25', '15:00', 63, 243);
+insert into Venta values (17643, '2022-11-28', '16:00', 346, 243);
+
+insert into Venta values (24710, '2021-01-24', '12:34', 1345, 243);
+insert into Venta values (67891, '2021-01-24', '14:56', 1230, 287);
+insert into Venta values (45287, '2022-11-04', '10:23', 1050, 287);
+insert into Venta values (89123, '2020-07-27', '18:43', 1950, 243);
+insert into Venta values (57643, '2021-05-09', '11:09', 1400, 287);
+insert into Venta values (12345, '2022-11-04', '15:30', 1320, 287);
+insert into Venta values (98765, '2022-11-12', '19:15', 980, 243);
+insert into Venta values (34671, '2021-08-25', '16:50', 1375, 243);
+insert into Venta values (23456, '2022-08-02', '13:22', 1260, 287);
+insert into Venta values (91234, '2023-05-30', '20:05', 945, 243);
+insert into Venta values (87521, '2022-10-18', '09:40', 1280, 287);
+insert into Venta values (98712, '2023-03-08', '11:55', 1485, 287);
+insert into Venta values (54123, '2023-08-15', '17:18', 910, 243);
+insert into Venta values (12398, '2023-02-14', '13:35', 1020, 287);
+insert into Venta values (65743, '2022-07-22', '16:40', 1450, 243);
+insert into Venta values (76521, '2022-08-15', '21:00', 780, 287);
+insert into Venta values (78901, '2023-02-14', '09:57', 930, 287);
+insert into Venta values (43267, '2022-09-15', '14:26', 1160, 243);
+insert into Venta values (76532, '2023-02-14', '18:12', 1380, 243);
+insert into Venta values (45678, '2023-04-20', '10:38', 1355, 287);
+insert into Venta values (34567, '2023-08-15', '15:52', 980, 243);
+insert into Venta values (90876, '2023-06-10', '12:17', 1270, 287);
